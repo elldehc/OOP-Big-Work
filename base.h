@@ -109,11 +109,34 @@ float eval(Node &node,const InputList &il)
 	Node::time_stamp++;
 	return node._eval(il);
 }
-class Add:public Node
+class Node_Uni:public Node
 {
+protected:
+	Node *op1;
+	int evtime;
+	float tval;
+	float _eval(const InputList &il)=0;
+public:
+	Node_Uni(const Nodeptr &_op1):op1(_op1.p){check_add(op1);}
+	~Node_Uni(){check_free(op1);}
+	
+};
+
+class Node_Bin:public Node
+{
+protected:
 	Node *op1,*op2;
 	int evtime;
 	float tval;
+	float _eval(const InputList &il)=0;
+public:
+	Node_Bin(const Nodeptr &_op1,const Nodeptr &_op2):op1(_op1.p),op2(_op2.p){check_add(op1);check_add(op2);}
+	~Node_Bin(){check_free(op1);check_free(op2);}
+	
+};
+
+class Add:public Node_Bin
+{
 	float _eval(const InputList &il)override
 	{
 		if(evtime==Node::time_stamp)return tval;else
@@ -125,13 +148,7 @@ class Add:public Node
 		}
 	}
 public:
-	Add(const Nodeptr &_op1,const Nodeptr &_op2):op1(_op1.p),op2(_op2.p){check_add(op1);check_add(op2);}
-	//operator _Add&()const{_Add *p=new _Add(*this);return *p;}
-	//Add(Node &_op1,Node &&_op2):op1(&_op1),op2(&_op2){cerr<<"op2="<<op2<<'\n';}
-	//Add(Node &&_op1,Node &_op2):op1(&_op1),op2(&_op2){}
-	//Add(Node &&_op1,Node &&_op2):op1(&_op1),op2(&_op2){}
-	~Add(){check_free(op1);check_free(op2);}
-	
+	Add(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}
 };
 Add operator + (const Nodeptr &op1,const Nodeptr &op2){return Add(op1,op2);}
 #endif

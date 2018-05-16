@@ -1,11 +1,8 @@
 #ifndef EXPAND01_H
 #define EXPAND01_H
 #include "base.h"
-class Multiply:public Node
+class Multiply:public Node_Bin
 {
-	Node *op1,*op2;
-	int evtime;
-	float tval;
 	float _eval(const InputList &il)override
 	{
 		if(evtime==Node::time_stamp)return tval;else
@@ -17,17 +14,12 @@ class Multiply:public Node
 		}
 	}
 public:
-	Multiply(const Nodeptr &_op1,const Nodeptr &_op2):op1(_op1.p),op2(_op2.p){check_add(op1);check_add(op2);}
-	~Multiply(){check_free(op1);check_free(op2);}
-	
+	Multiply(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}	
 };
 Multiply operator * (const Nodeptr &op1,const Nodeptr &op2){return Multiply(op1,op2);}
-class Print:public Node
+class Print:public Node_Uni
 {
-	Node *op1;
 	string message_pre,message_post;
-	int evtime;
-	float tval;
 	float _eval(const InputList &il)override
 	{
 		if(evtime==Node::time_stamp)return tval;else
@@ -41,8 +33,7 @@ class Print:public Node
 	}
 public:
 	Print(const Nodeptr &_op1,const string &_m1="Print:",const string &_m2=""):
-		op1(_op1.p),message_pre(_m1),message_post(_m2){check_add(op1);}
-	~Print(){check_free(op1);}
+		Node_Uni(_op1),message_pre(_m1),message_post(_m2){}
 };
 class Parameter:public Node
 {
@@ -53,10 +44,10 @@ class Parameter:public Node
 	}
 public:
 	Parameter(float c=0):pval(c){};
-	Parameter operator = (float c){this->pval=c;return *this;}
-	Parameter operator += (float c){this->pval+=c;return *this;}
-	Parameter operator -= (float c){this->pval-=c;return *this;}
-	Parameter operator *= (float c){this->pval*=c;return *this;}
-	Parameter operator /= (float c){this->pval/=c;return *this;}
+	void set(float c){this->pval=c;}
+	void add(float c){this->pval+=c;}
+	void sub(float c){this->pval-=c;}
+	void mul(float c){this->pval*=c;}
+	void div(float c){this->pval/=c;}
 };
 #endif

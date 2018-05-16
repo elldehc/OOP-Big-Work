@@ -17,11 +17,11 @@ int main()
 	cout<<eval(p2,{{x,1},{y,0}})<<'\n';
 	cout<<eval(p1,{{y,0}})<<'\n';
 	auto para=Parameter();
-	para=1;
-	para+=2;
-	para-=4;
-	para*=8;
-	para/=16;
+	para.set(1);
+	para.add(2);
+	para.sub(4);
+	para.mul(8);
+	para.div(16);
 	auto ans=para*res;
 	auto ans2=para*5.f;
 	cout<<eval(ans,{{x,1},{y,2}})<<'\n';
