@@ -40,10 +40,10 @@ protected:
 public:
 	virtual float _eval(const InputList &il)=0;//内部的求值函数，应避免主程序中直接调用
 	friend float eval(Node &node,const InputList &il);//用来在主程序中调用的求值函数
-	Node(){node_count++;cerr<<"Node created at "<<this<<'\n';}
-	Node(const Node &){node_count++;cerr<<"Node created at "<<this<<'\n';}
-	Node(Node &&){node_count++;cerr<<"Node created at "<<this<<'\n';}
-	virtual ~Node(){node_count--;cerr<<"Node destroyed at "<<this<<" node_count="<<node_count<<'\n';}//构造函数和析构函数，不设成默认的只是为了调试
+	Node(){/*node_count++;cerr<<"Node created at "<<this<<'\n';*/}
+	Node(const Node &){/*node_count++;cerr<<"Node created at "<<this<<'\n';*/}
+	Node(Node &&){/*node_count++;cerr<<"Node created at "<<this<<'\n';*/}
+	virtual ~Node(){/*node_count--;cerr<<"Node destroyed at "<<this<<" node_count="<<node_count<<'\n';*/}//构造函数和析构函数，不设成默认的只是为了调试
 };
 int Node::time_stamp=0;
 int Node::node_count=0;
@@ -105,7 +105,7 @@ public:
 	Placeholder(const Placeholder &)=delete;//因为Placeholder之间的区分是用地址，所以如果把一个Placeholder复制了一份就可能会出现别的结点引用的是这个而灌入的数值给了另一个的现象
 	Placeholder(Placeholder &&)=default;//居然要显式声明使用默认的移动构造函数，否则就不生成移动构造函数
 };
-float eval(Node &node,const InputList &il)//用来给主程序调用的eval函数
+float eval(Node &node,const InputList &il={})//用来给主程序调用的eval函数
 {
 	Node::time_stamp++;
 	return node._eval(il);
