@@ -13,5 +13,6 @@ int main()
 	cout<<eval(res,{{x,1},{y,0}})<<'\n';
 	cout<<eval(t,{{y,0}})<<'\n';
 	//cout<<eval(res,{{y,0}})<<'\n';
+	system("pause");
 	return 0;
 }

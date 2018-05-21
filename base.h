@@ -93,9 +93,9 @@ class Placeholder:public Node
 	float _eval(const InputList &il)override
 	{
 		auto it=il.find(*this);
-		if(it!=il.end())return it->second;else
+		if(it!=il.end()){ return it->second;} else
 		{
-			cerr<<"Error Placeholder "<<name<<" was used unassigned.\n";
+			cerr<<"Error: Placeholder "<<name<<" was used unassigned.\n";
 			exit(1);
 		}
 	}

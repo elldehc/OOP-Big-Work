@@ -1,7 +1,24 @@
 #ifndef EXPAND01_H
 #define EXPAND01_H
 #include "base.h"
-class Multiply:public Node_Bin
+class Sub:public Node_Bin
+{
+	float _eval(const InputList &il)override
+	{
+		if(evtime==Node::time_stamp)return tval;else
+		{
+			float t1=op1->_eval(il),t2=op2->_eval(il);
+			evtime=Node::time_stamp;
+			tval=t1-t2;
+			return tval;
+		}
+	}
+public:
+	Sub(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}	
+};
+Sub operator - (const Nodeptr &op1,const Nodeptr &op2){return Sub(op1,op2);}
+
+class Mul:public Node_Bin
 {
 	float _eval(const InputList &il)override
 	{
@@ -14,9 +31,28 @@ class Multiply:public Node_Bin
 		}
 	}
 public:
-	Multiply(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}	
+	Mul(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}	
 };
-Multiply operator * (const Nodeptr &op1,const Nodeptr &op2){return Multiply(op1,op2);}
+Mul operator * (const Nodeptr &op1,const Nodeptr &op2){return Mul(op1,op2);}
+
+class Div:public Node_Bin
+{
+	float _eval(const InputList &il)override
+	{
+		if(evtime==Node::time_stamp)return tval;else
+		{
+			float t1=op1->_eval(il),t2=op2->_eval(il);
+			evtime=Node::time_stamp;
+			if (t2 == 0) cerr<<"Warning: Calculation Div was meaningless.\n";
+			tval=t1/t2;
+			return tval;
+		}
+	}
+public:
+	Div(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}	
+};
+Div operator / (const Nodeptr &op1,const Nodeptr &op2){return Div(op1,op2);}
+
 class Print:public Node_Uni
 {
 	string message_pre,message_post;
