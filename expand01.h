@@ -1,6 +1,7 @@
 #ifndef EXPAND01_H
 #define EXPAND01_H
 #include "base.h"
+//都是看了名字就知道是什么的东西，也没有什么鬼畜的定义或者实现，就不给注释了
 class Sub:public Node_Bin
 {
 	float _eval(const InputList &il)override
@@ -52,6 +53,7 @@ public:
 	Div(const Nodeptr &_op1,const Nodeptr &_op2):Node_Bin(_op1,_op2){}	
 };
 Div operator / (const Nodeptr &op1,const Nodeptr &op2){return Div(op1,op2);}
+
 
 class Print:public Node_Uni
 {
