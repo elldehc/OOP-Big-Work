@@ -1,7 +1,7 @@
 CFLAGS = -std=c++11 -g -Wall -Wextra
 .PHONY: all clean
 all: test1 test2 test3 test4 test5
-test1: test1.cpp base.h
+test1: test1.cpp base.h expand01.h
 	g++ $< -o $@ $(CFLAGS)
 test2: test2.cpp base.h expand01.h
 	g++ $< -o $@ $(CFLAGS)

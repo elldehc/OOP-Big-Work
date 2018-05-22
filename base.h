@@ -35,7 +35,7 @@ class Node
 protected:
 	static int time_stamp;//当前时间戳，用于表示当前是哪一次计算
 	static int node_count;//对节点进行计数，调试用
-	int vtime;//求值的时间，和当前时间进行比较可以得知计算出的值是否过期
+	int evtime=0;//求值的时间，和当前时间进行比较可以得知计算出的值是否过期
 	float val;//保存计算出的值以便多次使用
 public:
 	virtual float _eval(const InputList &il)=0;//内部的求值函数，应避免主程序中直接调用
@@ -114,7 +114,7 @@ class Node_Uni:public Node//一元运算符
 {
 protected:
 	Node *op1;
-	int evtime;
+	int evtime=0;
 	float tval;
 	float _eval(const InputList &il)=0;
 public:
@@ -127,7 +127,7 @@ class Node_Bin:public Node//二元运算符
 {
 protected:
 	Node *op1,*op2;
-	int evtime;
+	int evtime=0;
 	float tval;
 	float _eval(const InputList &il)=0;
 public:
